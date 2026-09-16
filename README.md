@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8cq7lwlp1pizz0k9vwpm.gif"/>
+  <img src="https://capsule-render.vercel.app/api?type=blur&height=300&color=gradient&text=Hello%20Everyone&animation=fadeIn&section=header&reversal=false"/>
 </p>
 
 # 🏨 Hotel Booking API
