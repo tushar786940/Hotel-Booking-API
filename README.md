@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?text=Hey Everyone!🕹️&animation=fadeIn&type=waving&color=gradient&height=100"/>
+</p>
+
 # 🏨 Hotel Booking API
 
 [![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
@@ -37,12 +41,14 @@
 ## ✨ Features
 
 ### 🔍 Search & Discovery
+
 - Full-text hotel search by city, country, and star rating
 - Real-time room availability checking with date overlap detection
 - Price range and guest capacity filters
 - Sort by price (ascending/descending) or rating
 
 ### 📅 Booking Management
+
 - Complete booking lifecycle: `pending → confirmed → checked_in → checked_out`
 - Automatic booking reference generation (e.g., `BK-A8Kx9mPq`)
 - Date overlap prevention (no double bookings)
@@ -50,6 +56,7 @@
 - Special requests support
 
 ### 💳 Payments
+
 - Stripe integration with PaymentIntent flow
 - Secure webhook handling with signature verification
 - Automatic booking confirmation on successful payment
@@ -57,16 +64,19 @@
 - Payment status tracking
 
 ### 👥 Multi-Role System
+
 - **Guest** — Search, book, pay, and review
 - **Hotel Owner** — Manage hotels, room types, and bookings
 - **Admin** — Full system oversight and analytics
 
 ### 📧 Notifications
+
 - Email confirmations for bookings, cancellations, and payments
 - In-app database notifications
 - Queued notification delivery (non-blocking)
 
 ### 🏗️ Architecture
+
 - Service layer pattern (thin controllers, fat services)
 - API Resources for controlled JSON responses
 - Event-driven architecture (Events → Listeners)
@@ -77,22 +87,23 @@
 
 ## 🛠 Tech Stack
 
-| Layer          | Technology                              |
-|----------------|-----------------------------------------|
-| **Framework**  | Laravel 11                              |
-| **Language**   | PHP 8.2+                                |
-| **Database**   | MySQL 8.0                               |
-| **Auth**       | Laravel Sanctum (Token-based)           |
-| **Payments**   | Stripe API                              |
-| **Roles**      | Spatie Laravel Permission               |
-| **PDF**        | Laravel DomPDF                          |
-| **Testing**    | Pest PHP                                |
-| **Queue**      | Laravel Queue (Database/Redis driver)   |
-| **Mail**       | Laravel Mail (SMTP / Mailtrap)          |
+| Layer         | Technology                            |
+| ------------- | ------------------------------------- |
+| **Framework** | Laravel 11                            |
+| **Language**  | PHP 8.2+                              |
+| **Database**  | MySQL 8.0                             |
+| **Auth**      | Laravel Sanctum (Token-based)         |
+| **Payments**  | Stripe API                            |
+| **Roles**     | Spatie Laravel Permission             |
+| **PDF**       | Laravel DomPDF                        |
+| **Testing**   | Pest PHP                              |
+| **Queue**     | Laravel Queue (Database/Redis driver) |
+| **Mail**      | Laravel Mail (SMTP / Mailtrap)        |
 
 ---
 
 ## 🏗 Architecture
+
 ┌─────────────────────────────────────────────────────┐
 │ CLIENT │
 │ (Mobile App / SPA / Postman) │
@@ -135,7 +146,6 @@
 └──────────────────────┘
 
 text
-
 
 ---
 
@@ -761,3 +771,4 @@ Author: Tushar Thakur
 Email: tusharthakur06958@gmail.com
 GitHub: @tushar786940
 ⭐ If you found this project helpful, please give it a star on GitHub!
+```
