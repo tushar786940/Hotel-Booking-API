@@ -26,9 +26,7 @@ class BookingConfirmationNotification extends Notification implements ShouldQueu
 {
     use Queueable;
 
-    public function __construct(public Booking $booking)
-    {
-    }
+    public function __construct(public Booking $booking) {}
 
     /**
      * Which channels to send this notification through?
