@@ -77,8 +77,7 @@ class AvailabilityController extends Controller
             $validated['check_out']
         );
 
-        $nights = Carbon::parse($validated['check_in'])
-                  ->diffInDays(Carbon::parse($validated['check_out']));
+        $nights = Carbon::parse($validated['check_in'])->diffInDays(Carbon::parse($validated['check_out']));
 
         $guests = $validated['guests'] ?? 1;
 

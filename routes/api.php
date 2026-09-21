@@ -75,16 +75,13 @@ Route::prefix('v1')->group(function () {
         // HOTEL OWNER ROUTES
         // ═══════════════════════════════════════
 
-        Route::middleware('role:hotel-owner')
-             ->prefix('manage')
-             ->group(function () {
+        Route::middleware('role:hotel-owner')->prefix('manage')->group(function () {
 
             // Hotel CRUD
             Route::apiResource('hotels', AdminHotelController::class);
 
             // Room Types (nested under hotels)
-            Route::apiResource('hotels.room-types', RoomTypeController::class)
-                 ->shallow();
+            Route::apiResource('hotels.room-types', RoomTypeController::class)->shallow();
 
             // View bookings for my hotels
             Route::get('/hotels/{hotel}/bookings', [AdminBookingController::class, 'index']);

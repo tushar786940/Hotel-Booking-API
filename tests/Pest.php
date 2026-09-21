@@ -31,3 +31,5 @@ uses(TestCase::class)->in('Feature', 'Unit');
 */
 
 uses(RefreshDatabase::class)->in('Feature');
+
+require_once __DIR__ . '/Helpers.php';

@@ -83,8 +83,7 @@ class PaymentService
     {
         return DB::transaction(function () use ($transactionId) {
             // Find our payment record by Stripe's transaction ID
-            $payment = Payment::where('transaction_id', $transactionId)
-                              ->firstOrFail();
+            $payment = Payment::where('transaction_id', $transactionId)->firstOrFail();
 
             // Update payment status
             $payment->update([

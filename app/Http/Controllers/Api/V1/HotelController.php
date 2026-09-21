@@ -19,8 +19,7 @@ class HotelController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $hotels = Hotel::query()
-            ->active() // Our custom scope - only active hotels
+        $hotels = Hotel::query()->active() // Our custom scope - only active hotels
 
             /**
              * with() = Eager Loading
