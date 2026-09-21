@@ -17,9 +17,11 @@ class RoomTypeResource extends JsonResource
             'capacity'        => $this->capacity,
             'total_rooms'     => $this->total_rooms,
             'amenities'       => $this->amenities,
-            'images'          => $this->images,
 
-            // Show available rooms count (only if rooms are loaded)
+            // ─── Image URLs ───
+            'cover_image'     => $this->cover_image,
+            'images'          => $this->images_with_urls,
+
             'available_rooms' => $this->whenLoaded('rooms', function () {
                 return $this->rooms
                     ->where('is_available', true)

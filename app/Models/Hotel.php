@@ -176,4 +176,64 @@ class Hotel extends Model
     {
         return $query->where('city', 'LIKE', "%{$city}%");
     }
+
+    /**
+     * Get formatted images with full URLs
+     *
+     * The 'images' field stores raw paths in the database.
+     * This method converts them to full URLs for the API.
+     *
+     * Database stores:
+     *   [
+     *     {"path": "hotels/abc.jpg", "thumbnail": "hotels/thumbnails/abc.jpg"}
+     *   ]
+     *
+     * API returns:
+     *   [
+     *     {
+     *       "url": "http://localhost:8000/storage/hotels/abc.jpg",
+     *       "thumbnail_url": "http://localhost:8000/storage/hotels/thumbnails/abc.jpg"
+     *     }
+     *   ]
+     */
+    public function getImagesWithUrlsAttribute(): array
+    {
+        if (empty($this->images)) {
+            return [];
+        }
+
+        return collect($this->images)->map(function ($image) {
+            // Handle both old format (just path strings) and new format (arrays)
+            if (is_string($image)) {
+                return [
+                    'url'           => asset('storage/' . $image),
+                    'thumbnail_url' => asset('storage/' . $image),
+                ];
+            }
+
+            return [
+                'url'           => asset('storage/' . $image['path']),
+                'thumbnail_url' => asset('storage/' . ($image['thumbnail'] ?? $image['path'])),
+            ];
+        })->toArray();
+    }
+
+    /**
+     * Get the primary/cover image (first one)
+     * Used for hotel cards in search results
+     */
+    public function getCoverImageAttribute(): ?string
+    {
+        if (empty($this->images)) {
+            return null;
+        }
+
+        $first = $this->images[0];
+
+        if (is_string($first)) {
+            return asset('storage/' . $first);
+        }
+
+        return asset('storage/' . ($first['thumbnail'] ?? $first['path']));
+    }
 }

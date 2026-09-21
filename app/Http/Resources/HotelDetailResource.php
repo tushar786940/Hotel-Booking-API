@@ -5,10 +5,6 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * Transforms Hotel model for DETAIL view (single hotel page)
- * Shows everything including room types and reviews
- */
 class HotelDetailResource extends JsonResource
 {
     public function toArray(Request $request): array
@@ -29,28 +25,29 @@ class HotelDetailResource extends JsonResource
             'average_rating' => $this->average_rating,
             'check_in_time'  => $this->check_in_time,
             'check_out_time' => $this->check_out_time,
-            'images'         => $this->images,
+
+            // ─── Image URLs ───
+            'cover_image'    => $this->cover_image,
+            'images'         => $this->images_with_urls,
+
             'amenities'      => $this->amenities,
 
-            // Nested resources - room types with their details
             'room_types'     => RoomTypeResource::collection(
                 $this->whenLoaded('roomTypes')
             ),
 
-            // Recent reviews
             'reviews'        => $this->whenLoaded('reviews', function () {
                 return $this->reviews->take(10)->map(fn ($review) => [
                     'id'         => $review->id,
                     'user'       => $review->user->name,
                     'rating'     => $review->rating,
                     'comment'    => $review->comment,
-                    'created_at' => $review->created_at->diffForHumans(), // "2 days ago"
+                    'created_at' => $review->created_at->diffForHumans(),
                 ]);
             }),
 
             'reviews_count'  => $this->reviews->count(),
 
-            // Owner info
             'owner'          => $this->whenLoaded('owner', function () {
                 return [
                     'name'  => $this->owner->name,

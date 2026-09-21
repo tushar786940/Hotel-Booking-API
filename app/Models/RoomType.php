@@ -54,4 +54,42 @@ class RoomType extends Model
             ->where('status', 'available')
             ->count();
     }
+
+    // ADD these methods to the RoomType class:
+
+    public function getImagesWithUrlsAttribute(): array
+    {
+        if (empty($this->images)) {
+            return [];
+        }
+
+        return collect($this->images)->map(function ($image) {
+            if (is_string($image)) {
+                return [
+                    'url'           => asset('storage/' . $image),
+                    'thumbnail_url' => asset('storage/' . $image),
+                ];
+            }
+
+            return [
+                'url'           => asset('storage/' . $image['path']),
+                'thumbnail_url' => asset('storage/' . ($image['thumbnail'] ?? $image['path'])),
+            ];
+        })->toArray();
+    }
+
+    public function getCoverImageAttribute(): ?string
+    {
+        if (empty($this->images)) {
+            return null;
+        }
+
+        $first = $this->images[0];
+
+        if (is_string($first)) {
+            return asset('storage/' . $first);
+        }
+
+        return asset('storage/' . ($first['thumbnail'] ?? $first['path']));
+    }
 }
