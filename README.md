@@ -75,6 +75,26 @@
 - In-app database notifications
 - Queued notification delivery (non-blocking)
 
+### 📸 Image Uploads (Hotel Owner)
+
+| Method | Endpoint                             | Description             |
+| ------ | ------------------------------------ | ----------------------- |
+| POST   | `/manage/hotels/{id}/images`         | Upload hotel images     |
+| PUT    | `/manage/hotels/{id}/images`         | Replace all images      |
+| DELETE | `/manage/hotels/{id}/images`         | Delete a single image   |
+| PUT    | `/manage/hotels/{id}/images/reorder` | Reorder images          |
+| POST   | `/manage/room-types/{id}/images`     | Upload room type images |
+| DELETE | `/manage/room-types/{id}/images`     | Delete room type image  |
+
+**Upload Images (multipart/form-data):**
+
+````bash
+curl -X POST http://localhost:8000/api/v1/manage/hotels/1/images \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Accept: application/json" \
+  -F "images[]=@/path/to/photo1.jpg" \
+  -F "images[]=@/path/to/photo2.jpg"
+
 ### 🏗️ Architecture
 
 - Service layer pattern (thin controllers, fat services)
@@ -771,4 +791,4 @@ Author: Tushar Thakur
 Email: tusharthakur06958@gmail.com
 GitHub: @tushar786940
 ⭐ If you found this project helpful, please give it a star on GitHub!
-```
+````
