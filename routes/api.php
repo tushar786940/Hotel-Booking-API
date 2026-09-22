@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\WebhookController;
 use App\Http\Controllers\Api\V1\Admin\AdminHotelController;
 use App\Http\Controllers\Api\V1\Admin\AdminBookingController;
 use App\Http\Controllers\Api\V1\ImageUploadController;
+use App\Http\Controllers\Api\V1\InvoiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,6 +72,15 @@ Route::prefix('v1')->group(function () {
         // ──── Guest: Reviews ────
         Route::post('/bookings/{booking}/review', [ReviewController::class, 'store']);
 
+        // ═══════════════════════════════════════
+        // INVOICE ROUTES (Authenticated)
+        // ═══════════════════════════════════════
+
+        // Guest: View & download own invoices
+        Route::get('/bookings/{booking}/invoice', [InvoiceController::class, 'view']);
+        Route::get('/bookings/{booking}/invoice/download', [InvoiceController::class, 'download']);
+        Route::post('/bookings/{booking}/invoice/email', [InvoiceController::class, 'email']);
+
 
         // ═══════════════════════════════════════
         // HOTEL OWNER ROUTES
@@ -80,6 +90,9 @@ Route::prefix('v1')->group(function () {
 
             // Hotel CRUD
             Route::apiResource('hotels', AdminHotelController::class);
+
+            // Hotel Owner: Regenerate invoices
+            Route::post('/bookings/{booking}/invoice/regenerate', [InvoiceController::class, 'regenerate']);
 
             // Room Types (nested under hotels)
             Route::apiResource('hotels.room-types', RoomTypeController::class)->shallow();

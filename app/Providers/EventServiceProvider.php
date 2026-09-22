@@ -7,6 +7,7 @@ use App\Events\BookingCancelled;
 use App\Events\PaymentCompleted;
 use App\Listeners\SendBookingConfirmation;
 use App\Listeners\SendCancellationNotification;
+use App\Listeners\SendInvoiceAfterPayment;
 use App\Listeners\SendPaymentReceipt;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -31,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         PaymentCompleted::class => [
             SendPaymentReceipt::class,
+            SendInvoiceAfterPayment::class
         ],
     ];
 }
