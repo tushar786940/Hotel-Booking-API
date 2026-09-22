@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\V1\RoomTypeController;
 use App\Http\Controllers\Api\V1\WebhookController;
 use App\Http\Controllers\Api\V1\Admin\AdminHotelController;
 use App\Http\Controllers\Api\V1\Admin\AdminBookingController;
+use App\Http\Controllers\Api\V1\ImageUploadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -88,6 +89,20 @@ Route::prefix('v1')->group(function () {
 
             // Update booking status (check-in, check-out)
             Route::put('/bookings/{booking}/status', [AdminBookingController::class, 'updateStatus']);
+
+            // ═══════════════════════════════════════
+            // IMAGE UPLOAD ROUTES
+            // ═══════════════════════════════════════
+
+            // Hotel images
+            Route::post('/hotels/{hotel}/images', [ImageUploadController::class, 'uploadHotelImages']);
+            Route::put('/hotels/{hotel}/images', [ImageUploadController::class, 'replaceHotelImages']);
+            Route::delete('/hotels/{hotel}/images', [ImageUploadController::class, 'deleteHotelImage']);
+            Route::put('/hotels/{hotel}/images/reorder', [ImageUploadController::class, 'reorderHotelImages']);
+
+            // Room type images
+            Route::post('/room-types/{roomType}/images', [ImageUploadController::class, 'uploadRoomTypeImages']);
+            Route::delete('/room-types/{roomType}/images', [ImageUploadController::class, 'deleteRoomTypeImage']);
         });
     });
 });
