@@ -2,9 +2,6 @@
 
 namespace App\Filament\Resources\Hotels;
 
-use App\Filament\Resources\HotelResource\RelationManagers\BookingsRelationManager as RelationManagersBookingsRelationManager;
-use App\Filament\Resources\Hotels\HotelResource\Pages;
-use App\Filament\Resources\Hotels\HotelResource\RelationManagers;
 use App\Filament\Resources\Hotels\Pages\CreateHotel;
 use App\Filament\Resources\Hotels\Pages\EditHotel;
 use App\Filament\Resources\Hotels\Pages\ListHotels;
@@ -38,10 +35,10 @@ class HotelResource extends Resource
     protected static ?string $model = Hotel::class;
 
     protected static string|BackedEnum|null $navigationIcon =
-        'heroicon-o-building-office-2';
+    'heroicon-o-building-office-2';
 
     protected static string|UnitEnum|null $navigationGroup =
-        'Hotel Management';
+    'Hotel Management';
 
     protected static ?int $navigationSort = 1;
 
@@ -61,7 +58,7 @@ class HotelResource extends Resource
                         ->maxLength(255)
                         ->live(onBlur: true)
                         ->afterStateUpdated(
-                            fn (
+                            fn(
                                 Set $set,
                                 ?string $state
                             ) => $set(
@@ -214,8 +211,8 @@ class HotelResource extends Resource
                     ->sortable()
                     ->weight('bold')
                     ->description(
-                        fn (Hotel $record): string =>
-                            $record->city . ', ' . $record->country
+                        fn(Hotel $record): string =>
+                        $record->city . ', ' . $record->country
                     ),
 
                 Tables\Columns\TextColumn::make('owner.name')
@@ -225,8 +222,8 @@ class HotelResource extends Resource
 
                 Tables\Columns\TextColumn::make('star_rating')
                     ->formatStateUsing(
-                        fn ($state): string =>
-                            str_repeat('★', (int) $state) .
+                        fn($state): string =>
+                        str_repeat('★', (int) $state) .
                             str_repeat(
                                 '☆',
                                 max(0, 5 - (int) $state)
@@ -242,10 +239,10 @@ class HotelResource extends Resource
                     ->sortable()
                     ->label('From / Night')
                     ->getStateUsing(
-                        fn (Hotel $record) =>
-                            $record
-                                ->roomTypes()
-                                ->min('price_per_night')
+                        fn(Hotel $record) =>
+                        $record
+                            ->roomTypes()
+                            ->min('price_per_night')
                     ),
 
                 Tables\Columns\TextColumn::make('bookings_count')
@@ -284,12 +281,12 @@ class HotelResource extends Resource
 
                 Tables\Filters\SelectFilter::make('city')
                     ->options(
-                        fn () =>
-                            Hotel::query()
-                                ->whereNotNull('city')
-                                ->distinct()
-                                ->pluck('city', 'city')
-                                ->toArray()
+                        fn() =>
+                        Hotel::query()
+                            ->whereNotNull('city')
+                            ->distinct()
+                            ->pluck('city', 'city')
+                            ->toArray()
                     )
                     ->searchable(),
 
@@ -307,29 +304,29 @@ class HotelResource extends Resource
 
                 Action::make('toggle_active')
                     ->label(
-                        fn (Hotel $record): string =>
-                            $record->is_active
-                                ? 'Deactivate'
-                                : 'Activate'
+                        fn(Hotel $record): string =>
+                        $record->is_active
+                            ? 'Deactivate'
+                            : 'Activate'
                     )
                     ->icon(
-                        fn (Hotel $record): string =>
-                            $record->is_active
-                                ? 'heroicon-o-x-circle'
-                                : 'heroicon-o-check-circle'
+                        fn(Hotel $record): string =>
+                        $record->is_active
+                            ? 'heroicon-o-x-circle'
+                            : 'heroicon-o-check-circle'
                     )
                     ->color(
-                        fn (Hotel $record): string =>
-                            $record->is_active
-                                ? 'danger'
-                                : 'success'
+                        fn(Hotel $record): string =>
+                        $record->is_active
+                            ? 'danger'
+                            : 'success'
                     )
                     ->requiresConfirmation()
                     ->action(
-                        fn (Hotel $record): bool =>
-                            $record->update([
-                                'is_active' => ! $record->is_active,
-                            ])
+                        fn(Hotel $record): bool =>
+                        $record->update([
+                            'is_active' => ! $record->is_active,
+                        ])
                     ),
             ])
 
@@ -352,7 +349,7 @@ class HotelResource extends Resource
     {
         return [
             RoomTypesRelationManager::class,
-            RelationManagersBookingsRelationManager::class,
+            BookingsRelationManager::class,
         ];
     }
 
@@ -361,7 +358,6 @@ class HotelResource extends Resource
         return [
             'index' => ListHotels::route('/'),
             'create' => CreateHotel::route('/create'),
-            // 'view' => ViewHotel::route('/{record}'),
             'edit' => EditHotel::route('/{record}/edit'),
         ];
     }

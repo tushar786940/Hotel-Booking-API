@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Payments;
 
-use App\Filament\Resources\BookingResource;
-use App\Filament\Resources\PaymentResource\Pages;
+use App\Filament\Resources\Bookings\BookingResource;
 use App\Filament\Resources\Payments\Pages\ListPayments;
 use App\Models\Payment;
 use BackedEnum;
@@ -18,8 +17,12 @@ class PaymentResource extends Resource
 {
     protected static ?string $model = Payment::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-credit-card';
-    protected static string|UnitEnum|null $navigationGroup = 'Hotel Management';
+    protected static string|BackedEnum|null $navigationIcon =
+        'heroicon-o-credit-card';
+
+    protected static string|UnitEnum|null $navigationGroup =
+        'Hotel Management';
+
     protected static ?int $navigationSort = 4;
 
     /**
@@ -34,18 +37,26 @@ class PaymentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('booking.booking_reference')
+
+                Tables\Columns\TextColumn::make(
+                    'booking.booking_reference'
+                )
                     ->searchable()
                     ->sortable()
                     ->label('Booking')
                     ->url(
-                        fn (Payment $record): string => BookingResource::getUrl(
-                            'view',
-                            ['record' => $record->booking_id]
-                        )
+                        fn (Payment $record): string =>
+                            BookingResource::getUrl(
+                                'view',
+                                [
+                                    'record' => $record->booking_id,
+                                ]
+                            )
                     ),
 
-                Tables\Columns\TextColumn::make('booking.user.name')
+                Tables\Columns\TextColumn::make(
+                    'booking.user.name'
+                )
                     ->searchable()
                     ->label('Guest'),
 
@@ -58,7 +69,8 @@ class PaymentResource extends Resource
                     ->badge()
                     ->color('gray')
                     ->formatStateUsing(
-                        fn (?string $state): string => strtoupper($state ?? '')
+                        fn (?string $state): string =>
+                            strtoupper($state ?? '')
                     ),
 
                 Tables\Columns\TextColumn::make('method')
@@ -72,7 +84,8 @@ class PaymentResource extends Resource
                         }
                     )
                     ->formatStateUsing(
-                        fn (?string $state): string => ucfirst($state ?? '')
+                        fn (?string $state): string =>
+                            ucfirst($state ?? '')
                     ),
 
                 Tables\Columns\TextColumn::make('transaction_id')
@@ -80,7 +93,8 @@ class PaymentResource extends Resource
                     ->copyable()
                     ->limit(20)
                     ->tooltip(
-                        fn (Payment $record): ?string => $record->transaction_id
+                        fn (Payment $record): ?string =>
+                            $record->transaction_id
                     ),
 
                 Tables\Columns\TextColumn::make('status')
@@ -95,7 +109,8 @@ class PaymentResource extends Resource
                         }
                     )
                     ->formatStateUsing(
-                        fn (?string $state): string => ucfirst($state ?? '')
+                        fn (?string $state): string =>
+                            ucfirst($state ?? '')
                     ),
 
                 Tables\Columns\TextColumn::make('paid_at')
@@ -110,6 +125,7 @@ class PaymentResource extends Resource
             ])
 
             ->filters([
+
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
                         'completed' => 'Completed',
@@ -135,8 +151,10 @@ class PaymentResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $total = static::getModel()::where('status', 'completed')
-            ->sum('amount');
+        $total = static::getModel()::where(
+            'status',
+            'completed'
+        )->sum('amount');
 
         return '$' . number_format((float) $total, 0);
     }

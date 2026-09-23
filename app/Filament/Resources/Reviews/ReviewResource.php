@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Reviews;
 
-use App\Filament\Resources\ReviewResource\Pages;
 use App\Filament\Resources\Reviews\Pages\ListReviews;
 use App\Models\Review;
 use BackedEnum;

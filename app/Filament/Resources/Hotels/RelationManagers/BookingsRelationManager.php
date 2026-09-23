@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\HotelResource\RelationManagers;
+namespace App\Filament\Resources\Hotels\RelationManagers;
 
 use Filament\Actions\ViewAction;
-use Filament\Forms;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
