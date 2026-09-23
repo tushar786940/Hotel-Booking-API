@@ -44,14 +44,14 @@
         <table class="w-full text-sm">
             <thead>
                 <tr class="border-b dark:border-gray-700">
-                    <th class="text-left py-2">#</th>
+                    <th class="text-left py-2">No.</th>
                     <th class="text-left py-2">Hotel</th>
                     <th class="text-left py-2">City</th>
                     <th class="text-right py-2">Total Bookings</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($topHotels as $index => $hotel)
+                @foreach ($topHotels as $index => $hotel)
                     <tr class="border-b dark:border-gray-700">
                         <td class="py-3 font-bold text-primary-600">{{ $index + 1 }}</td>
                         <td class="py-3 font-semibold">{{ $hotel->name }}</td>
