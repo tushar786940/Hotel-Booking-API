@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Events\BookingCreated;
 use App\Events\BookingCancelled;
 use App\Events\PaymentCompleted;
+use App\Listeners\LogRateLimitHit;
 use App\Listeners\SendBookingConfirmation;
 use App\Listeners\SendCancellationNotification;
 use App\Listeners\SendInvoiceAfterPayment;
 use App\Listeners\SendPaymentReceipt;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Cache\Events\RateLimitExceeded;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -33,6 +35,9 @@ class EventServiceProvider extends ServiceProvider
         PaymentCompleted::class => [
             SendPaymentReceipt::class,
             SendInvoiceAfterPayment::class
+        ],
+        RateLimitExceeded::class => [
+            LogRateLimitHit::class,
         ],
     ];
 }
