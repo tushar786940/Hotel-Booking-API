@@ -465,7 +465,8 @@ JSON
     "room": {
       "room_number": "D003",
       "room_type": "Deluxe",
-      "floor": 1
+      "floor": 1,
+      "price_per_night": 299.99
     },
     "check_in": "2025-03-01",
     "check_out": "2025-03-05",
