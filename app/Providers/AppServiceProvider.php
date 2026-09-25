@@ -72,7 +72,7 @@ class AppServiceProvider extends ServiceProvider
          * The 'response' callback customizes the error message.
          */
         RateLimiter::for('auth', function (Request $request) {
-            return Limit::perMinute(5)
+            return Limit::perMinute(45)
                 ->by($request->ip())
                 ->response(function (Request $request, array $headers) {
                     return response()->json([
