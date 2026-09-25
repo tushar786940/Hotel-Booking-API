@@ -106,6 +106,39 @@ test('filament hotel image paths are exposed and served publicly', function () {
         ->assertHeader('X-Content-Type-Options', 'nosniff');
 });
 
+test('legacy local hotel images are migrated to the public disk when requested', function () {
+    Storage::fake('public');
+    Storage::fake('local');
+
+    $path = 'hotels/legacy-upload.webp';
+    Storage::disk('local')->put($path, 'legacy-hotel-image');
+
+    Hotel::factory()->create([
+        'images' => [$path],
+    ]);
+
+    $this->get('/storage/hotels/legacy-upload.webp')
+        ->assertOk()
+        ->assertHeader('X-Content-Type-Options', 'nosniff');
+
+    Storage::disk('public')->assertExists($path);
+});
+
+test('missing hotel image files are not advertised to frontend clients', function () {
+    Storage::fake('public');
+    Storage::fake('local');
+
+    Hotel::factory()->create([
+        'images' => ['hotels/missing-image.jpg'],
+    ]);
+
+    $this->getJson('/api/v1/hotels')
+        ->assertOk()
+        ->assertJsonPath('data.0.cover_image', null)
+        ->assertJsonCount(0, 'data.0.images')
+        ->assertJsonCount(0, 'data.0.image_urls');
+});
+
 test('absolute hotel image urls are preserved', function () {
     $imageUrl = 'https://cdn.example.com/hotels/external.jpg';
 

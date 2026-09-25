@@ -2,6 +2,7 @@
 
 namespace App\Models\Concerns;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 trait HasPublicImages
@@ -96,6 +97,27 @@ trait HasPublicImages
         $path = preg_replace('#^(?:/?storage/|/?public/)#', '', $path) ?? $path;
         $path = ltrim($path, '/');
 
-        return $path === '' ? null : asset("storage/{$path}");
+        if ($path === '' || ! $this->publicImageExists($path)) {
+            return null;
+        }
+
+        return asset("storage/{$path}");
+    }
+
+    protected function publicImageExists(string $path): bool
+    {
+        if (Storage::disk('public')->exists($path)) {
+            return true;
+        }
+
+        $isKnownImageDirectory = str_starts_with($path, 'hotels/')
+            || str_starts_with($path, 'rooms/');
+
+        if (! $isKnownImageDirectory) {
+            return false;
+        }
+
+        return Storage::disk('local')->exists($path)
+            || is_file(storage_path("app/{$path}"));
     }
 }
