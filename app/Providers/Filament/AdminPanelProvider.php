@@ -10,6 +10,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\Width;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -54,6 +55,7 @@ class AdminPanelProvider extends PanelProvider
                 'warning' => Color::Amber,
             ])
             ->brandName('Hotel Booking Admin')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             // ->brandLogo(asset('images/logo.png'))  // Uncomment when you have a logo
             // ->favicon(asset('images/favicon.ico'))
 
@@ -61,6 +63,7 @@ class AdminPanelProvider extends PanelProvider
              * ─── FEATURES ───
              */
             ->sidebarCollapsibleOnDesktop()  // Collapse sidebar on large screens
+            ->maxContentWidth(Width::Full)   // Give data tables the available viewport width
             ->darkMode(true)                 // Enable dark mode toggle
             ->globalSearchKeyBindings(['command+k', 'ctrl+k']) // Spotlight search
             ->databaseNotifications()        // Bell icon for notifications
