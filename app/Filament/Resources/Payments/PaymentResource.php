@@ -58,7 +58,8 @@ class PaymentResource extends Resource
                     'booking.user.name'
                 )
                     ->searchable()
-                    ->label('Guest'),
+                    ->label('Guest')
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('amount')
                     ->money('usd')
@@ -71,7 +72,8 @@ class PaymentResource extends Resource
                     ->formatStateUsing(
                         fn (?string $state): string =>
                             strtoupper($state ?? '')
-                    ),
+                    )
+                    ->visibleFrom('lg'),
 
                 Tables\Columns\TextColumn::make('method')
                     ->badge()
@@ -86,7 +88,8 @@ class PaymentResource extends Resource
                     ->formatStateUsing(
                         fn (?string $state): string =>
                             ucfirst($state ?? '')
-                    ),
+                    )
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('transaction_id')
                     ->searchable()
@@ -95,7 +98,8 @@ class PaymentResource extends Resource
                     ->tooltip(
                         fn (Payment $record): ?string =>
                             $record->transaction_id
-                    ),
+                    )
+                    ->visibleFrom('lg'),
 
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
@@ -116,12 +120,14 @@ class PaymentResource extends Resource
                 Tables\Columns\TextColumn::make('paid_at')
                     ->dateTime('M d, Y h:i A')
                     ->sortable()
-                    ->placeholder('Not paid yet'),
+                    ->placeholder('Not paid yet')
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime('M d, Y')
                     ->sortable()
-                    ->toggleable(),
+                    ->visibleFrom('xl')
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
 
             ->filters([
@@ -146,7 +152,8 @@ class PaymentResource extends Resource
                 ViewAction::make(),
             ])
 
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('created_at', 'desc')
+            ->stackedOnMobile();
     }
 
     public static function getNavigationBadge(): ?string

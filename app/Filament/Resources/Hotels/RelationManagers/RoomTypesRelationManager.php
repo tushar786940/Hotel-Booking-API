@@ -74,6 +74,7 @@ class RoomTypesRelationManager extends RelationManager
             FileUpload::make('images')
                 ->multiple()
                 ->image()
+                ->visibility('public')
                 ->maxFiles(8)
                 ->maxSize(5120)
                 ->directory('rooms')
@@ -103,7 +104,8 @@ class RoomTypesRelationManager extends RelationManager
                         fn ($state): string =>
                             "👥 {$state} guests"
                     )
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('total_rooms')
                     ->badge()
@@ -180,6 +182,7 @@ class RoomTypesRelationManager extends RelationManager
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->stackedOnMobile();
     }
 }

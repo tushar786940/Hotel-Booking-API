@@ -26,7 +26,8 @@ class BookingsRelationManager extends RelationManager
                     ->label('Guest'),
 
                 Tables\Columns\TextColumn::make('room.room_number')
-                    ->label('Room'),
+                    ->label('Room')
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('check_in')
                     ->date('M d, Y')
@@ -34,11 +35,13 @@ class BookingsRelationManager extends RelationManager
 
                 Tables\Columns\TextColumn::make('check_out')
                     ->date('M d, Y')
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('total_price')
                     ->money('usd')
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('lg'),
 
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
@@ -64,6 +67,7 @@ class BookingsRelationManager extends RelationManager
             ])
             ->actions([
                 ViewAction::make(),
-            ]);
+            ])
+            ->stackedOnMobile();
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
+use RuntimeException;
 
 /**
  * Handles all image uploads with automatic optimization
@@ -98,8 +99,17 @@ class ImageUploadService
         /*
          * ─── STEP 4: Save both files to storage ───
          */
-        Storage::disk(self::DISK)->put($path, (string) $fullImage);
-        Storage::disk(self::DISK)->put($thumbnailPath, (string) $thumbnail);
+        $disk = Storage::disk(self::DISK);
+        $fullImageStored = $disk->put($path, (string) $fullImage);
+        $thumbnailStored = $disk->put($thumbnailPath, (string) $thumbnail);
+
+        if (! $fullImageStored || ! $thumbnailStored) {
+            $disk->delete([$path, $thumbnailPath]);
+
+            throw new RuntimeException(
+                'The image could not be written to the public filesystem disk.'
+            );
+        }
 
         /*
          * ─── STEP 5: Return metadata ───

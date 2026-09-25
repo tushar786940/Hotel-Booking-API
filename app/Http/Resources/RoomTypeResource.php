@@ -21,6 +21,7 @@ class RoomTypeResource extends JsonResource
             // ─── Image URLs ───
             'cover_image'     => $this->cover_image,
             'images'          => $this->images_with_urls,
+            'image_urls'      => $this->image_urls,
 
             'available_rooms' => $this->whenLoaded('rooms', function () {
                 return $this->rooms

@@ -24,6 +24,7 @@ class HotelResource extends JsonResource
             // ─── Image URLs ───
             'cover_image'    => $this->cover_image,        // Single URL for cards
             'images'         => $this->images_with_urls,   // Full array for gallery
+            'image_urls'     => $this->image_urls,         // Flat URL list for simple clients
 
             'amenities'      => $this->amenities,
             'check_in_time'  => $this->check_in_time,

@@ -182,6 +182,7 @@ class HotelResource extends Resource
                     FileUpload::make('images')
                         ->multiple()
                         ->image()
+                        ->visibility('public')
                         ->imageEditor()
                         ->maxFiles(10)
                         ->maxSize(5120)
@@ -201,6 +202,8 @@ class HotelResource extends Resource
             ->columns([
 
                 Tables\Columns\ImageColumn::make('images')
+                    ->disk('public')
+                    ->visibility('public')
                     ->circular()
                     ->stacked()
                     ->limit(3)
@@ -218,7 +221,8 @@ class HotelResource extends Resource
                 Tables\Columns\TextColumn::make('owner.name')
                     ->searchable()
                     ->sortable()
-                    ->label('Owner'),
+                    ->label('Owner')
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('star_rating')
                     ->formatStateUsing(
@@ -243,14 +247,16 @@ class HotelResource extends Resource
                         $record
                             ->roomTypes()
                             ->min('price_per_night')
-                    ),
+                    )
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('bookings_count')
                     ->counts('bookings')
                     ->sortable()
                     ->badge()
                     ->color('info')
-                    ->label('Bookings'),
+                    ->label('Bookings')
+                    ->visibleFrom('lg'),
 
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean()
@@ -265,7 +271,8 @@ class HotelResource extends Resource
                     ->sortable()
                     ->toggleable(
                         isToggledHiddenByDefault: true
-                    ),
+                    )
+                    ->visibleFrom('xl'),
             ])
 
             ->filters([
@@ -337,7 +344,8 @@ class HotelResource extends Resource
                 ]),
             ])
 
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('created_at', 'desc')
+            ->stackedOnMobile();
     }
 
     public static function getNavigationBadge(): ?string

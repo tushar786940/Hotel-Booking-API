@@ -29,6 +29,7 @@ class HotelDetailResource extends JsonResource
             // ─── Image URLs ───
             'cover_image'    => $this->cover_image,
             'images'         => $this->images_with_urls,
+            'image_urls'     => $this->image_urls,
 
             'amenities'      => $this->amenities,
 

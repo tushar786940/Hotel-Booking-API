@@ -1,7 +1,7 @@
-@config "../../tailwind.config.js";
-@import "tailwindcss";
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+@config "../../tailwind.config.js";
+
 /* Tells Tailwind v4 to read your custom colors & fonts from tailwind.config.js */
 
 @layer base {
