@@ -55,7 +55,6 @@ class AdminPanelProvider extends PanelProvider
                 'warning' => Color::Amber,
             ])
             ->brandName('Hotel Booking Admin')
-            ->viteTheme('resources/css/filament/admin/theme.css')
             // ->brandLogo(asset('images/logo.png'))  // Uncomment when you have a logo
             // ->favicon(asset('images/favicon.ico'))
 
