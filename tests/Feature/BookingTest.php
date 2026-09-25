@@ -201,9 +201,13 @@ test('guest can view their own booking', function () {
 
     $response->assertStatus(200)
         ->assertJsonPath('data.booking_reference', $booking->booking_reference)
+        ->assertJsonPath('data.room.price_per_night', 100)
         ->assertJsonStructure([
-            'data'            => ['id', 'hotel', 'room', 'nights', 'total_price'],
-            'price_breakdown' => ['base_price', 'tax', 'total'],
+            'data' => [
+                'id', 'hotel', 'nights', 'total_price',
+                'room' => ['price_per_night'],
+            ],
+            'price_breakdown' => ['price_per_night', 'base_price', 'tax', 'total'],
         ]);
 });
 

@@ -20,9 +20,10 @@ class BookingResource extends JsonResource
                 'city' => $this->hotel->city,
             ],
             'room' => [
-                'room_number' => $this->room->room_number,
-                'room_type'   => $this->room->roomType->name,
-                'floor'       => $this->room->floor,
+                'room_number'    => $this->room->room_number,
+                'room_type'      => $this->room->roomType->name,
+                'floor'          => $this->room->floor,
+                'price_per_night' => (float) $this->room->roomType->price_per_night,
             ],
 
             'check_in'         => $this->check_in->format('Y-m-d'),
