@@ -45,7 +45,8 @@ class ReviewResource extends Resource
                 Tables\Columns\TextColumn::make('hotel.name')
                     ->searchable()
                     ->sortable()
-                    ->label('Hotel'),
+                    ->label('Hotel')
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('rating')
                     ->formatStateUsing(
@@ -64,16 +65,19 @@ class ReviewResource extends Resource
                             strlen($record->comment) > 50
                                 ? $record->comment
                                 : null
-                    ),
+                    )
+                    ->wrap(),
 
                 Tables\Columns\TextColumn::make('booking.booking_reference')
                     ->searchable()
-                    ->label('Booking'),
+                    ->label('Booking')
+                    ->visibleFrom('lg'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime('M d, Y')
                     ->sortable()
-                    ->label('Reviewed'),
+                    ->label('Reviewed')
+                    ->visibleFrom('md'),
             ])
 
             ->filters([
@@ -103,7 +107,8 @@ class ReviewResource extends Resource
                     ),
             ])
 
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('created_at', 'desc')
+            ->stackedOnMobile();
     }
 
     public static function getNavigationBadge(): ?string

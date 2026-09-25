@@ -103,7 +103,8 @@ class RoomTypesRelationManager extends RelationManager
                         fn ($state): string =>
                             "👥 {$state} guests"
                     )
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('total_rooms')
                     ->badge()
@@ -180,6 +181,7 @@ class RoomTypesRelationManager extends RelationManager
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->stackedOnMobile();
     }
 }

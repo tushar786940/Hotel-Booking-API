@@ -35,11 +35,13 @@ class RecentBookingsTable extends BaseWidget
                     ->label('Guest'),
 
                 Tables\Columns\TextColumn::make('hotel.name')
-                    ->label('Hotel'),
+                    ->label('Hotel')
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('check_in')
                     ->date('M d')
-                    ->label('Check-in'),
+                    ->label('Check-in')
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('total_price')
                     ->money('usd'),
@@ -55,6 +57,7 @@ class RecentBookingsTable extends BaseWidget
                         default       => 'secondary',
                     }),
             ])
-            ->paginated(false); // No pagination for widget
+            ->paginated(false)
+            ->stackedOnMobile();
     }
 }

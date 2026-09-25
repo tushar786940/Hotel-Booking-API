@@ -97,7 +97,10 @@ class UserResource extends Resource
                                     ? Hash::make($state)
                                     : null
                         )
-                        ->maxLength(255),
+                        ->minLength(8)
+                        ->maxLength(255)
+                        ->autocomplete('new-password')
+                        ->helperText('Leave blank to keep the current password.'),
                 ])
                 ->columns(2),
 
@@ -128,8 +131,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->sortable()
-                    ->searchable(),
-                    // ->toggleable(isToggledHiddenByDefault: true),
+                    ->searchable()
+                    ->visibleFrom('xl'),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
@@ -143,11 +146,13 @@ class UserResource extends Resource
                     ->sortable()
                     ->copyable()
                     ->copyMessage('Email copied!')
-                    ->icon('heroicon-o-envelope'),
+                    ->icon('heroicon-o-envelope')
+                    ->wrap(),
 
                 Tables\Columns\TextColumn::make('phone')
                     ->label('Phone')
                     ->searchable()
+                    ->placeholder('Not provided')
                     ->toggleable(),
 
                 Tables\Columns\TextColumn::make('roles.name')
@@ -167,12 +172,14 @@ class UserResource extends Resource
                     ->label('Bookings')
                     ->sortable()
                     ->badge()
-                    ->color('info'),
+                    ->color('info')
+                    ->visibleFrom('lg'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Joined')
                     ->dateTime('M d, Y')
                     ->sortable()
+                    ->visibleFrom('xl')
                     ->toggleable(),
             ])
 
@@ -212,7 +219,8 @@ class UserResource extends Resource
                 ]),
             ])
 
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('created_at', 'desc')
+            ->stackedOnMobile();
     }
 
     /*

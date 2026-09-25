@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Bookings;
 use App\Filament\Resources\Bookings\Pages\CreateBooking;
 use App\Filament\Resources\Bookings\Pages\EditBooking;
 use App\Filament\Resources\Bookings\Pages\ListBookings;
+use App\Filament\Resources\Bookings\Pages\ViewBooking;
 use App\Models\Booking;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -155,7 +156,8 @@ class BookingResource extends Resource
                 Tables\Columns\TextColumn::make('hotel.name')
                     ->searchable()
                     ->sortable()
-                    ->label('Hotel'),
+                    ->label('Hotel')
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make(
                     'room.room_number'
@@ -165,7 +167,8 @@ class BookingResource extends Resource
                     ->description(
                         fn (Booking $record): string =>
                             $record->room?->roomType?->name ?? ''
-                    ),
+                    )
+                    ->visibleFrom('lg'),
 
                 Tables\Columns\TextColumn::make('check_in')
                     ->date('M d, Y')
@@ -179,7 +182,8 @@ class BookingResource extends Resource
 
                 Tables\Columns\TextColumn::make('check_out')
                     ->date('M d, Y')
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
 
                 Tables\Columns\TextColumn::make('nights')
                     ->getStateUsing(
@@ -187,14 +191,16 @@ class BookingResource extends Resource
                             (int) $record->nights
                     )
                     ->suffix(' night(s)')
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('lg'),
 
                 Tables\Columns\TextColumn::make('guests_count')
                     ->formatStateUsing(
                         fn ($state): string =>
                             "👥 {$state}"
                     )
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('lg'),
 
                 Tables\Columns\TextColumn::make('total_price')
                     ->money('usd')
@@ -363,7 +369,8 @@ class BookingResource extends Resource
                 ]),
             ])
 
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('created_at', 'desc')
+            ->stackedOnMobile();
     }
 
     /*
@@ -397,7 +404,7 @@ class BookingResource extends Resource
         return [
             'index' => ListBookings::route('/'),
             'create' => CreateBooking::route('/create'),
-            // 'view' => ViewBooking::route('/{record}'),
+            'view' => ViewBooking::route('/{record}'),
             'edit' => EditBooking::route('/{record}/edit'),
         ];
     }
