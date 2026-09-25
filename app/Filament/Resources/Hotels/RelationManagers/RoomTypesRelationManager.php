@@ -74,6 +74,7 @@ class RoomTypesRelationManager extends RelationManager
             FileUpload::make('images')
                 ->multiple()
                 ->image()
+                ->visibility('public')
                 ->maxFiles(8)
                 ->maxSize(5120)
                 ->directory('rooms')

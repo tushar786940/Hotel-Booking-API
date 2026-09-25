@@ -182,6 +182,7 @@ class HotelResource extends Resource
                     FileUpload::make('images')
                         ->multiple()
                         ->image()
+                        ->visibility('public')
                         ->imageEditor()
                         ->maxFiles(10)
                         ->maxSize(5120)
@@ -201,6 +202,8 @@ class HotelResource extends Resource
             ->columns([
 
                 Tables\Columns\ImageColumn::make('images')
+                    ->disk('public')
+                    ->visibility('public')
                     ->circular()
                     ->stacked()
                     ->limit(3)

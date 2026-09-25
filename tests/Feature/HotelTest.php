@@ -4,6 +4,7 @@ use App\Models\Hotel;
 use App\Models\Review;
 use App\Models\RoomType;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 
 beforeEach(function () {
@@ -79,6 +80,44 @@ test('hotels list is paginated', function () {
         ->assertJsonCount(5, 'data')
         ->assertJsonPath('meta.total', 20)
         ->assertJsonPath('meta.last_page', 4);
+});
+
+test('filament hotel image paths are exposed and served publicly', function () {
+    Storage::fake('public');
+
+    $path = 'hotels/admin-upload.jpg';
+    Storage::disk('public')->put($path, 'hotel-image');
+
+    Hotel::factory()->create([
+        'images' => [$path],
+    ]);
+
+    $imageUrl = asset("storage/{$path}");
+
+    $this->getJson('/api/v1/hotels')
+        ->assertOk()
+        ->assertJsonPath('data.0.cover_image', $imageUrl)
+        ->assertJsonPath('data.0.images.0.url', $imageUrl)
+        ->assertJsonPath('data.0.images.0.thumbnail_url', $imageUrl)
+        ->assertJsonPath('data.0.image_urls.0', $imageUrl);
+
+    $this->get('/storage/hotels/admin-upload.jpg')
+        ->assertOk()
+        ->assertHeader('X-Content-Type-Options', 'nosniff');
+});
+
+test('absolute hotel image urls are preserved', function () {
+    $imageUrl = 'https://cdn.example.com/hotels/external.jpg';
+
+    Hotel::factory()->create([
+        'images' => [$imageUrl],
+    ]);
+
+    $this->getJson('/api/v1/hotels')
+        ->assertOk()
+        ->assertJsonPath('data.0.cover_image', $imageUrl)
+        ->assertJsonPath('data.0.images.0.url', $imageUrl)
+        ->assertJsonPath('data.0.image_urls.0', $imageUrl);
 });
 
 // ─── SHOW HOTEL ───

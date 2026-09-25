@@ -92,7 +92,9 @@ class AvailabilityController extends Controller
                     'description'     => $roomType->description,
                     'capacity'        => $roomType->capacity,
                     'amenities'       => $roomType->amenities,
-                    'images'          => $roomType->images,
+                    'cover_image'     => $roomType->cover_image,
+                    'images'          => $roomType->images_with_urls,
+                    'image_urls'      => $roomType->image_urls,
                 ],
                 'available_rooms' => $item['available_count'],
                 'pricing'         => $this->pricingService->getBreakdown(
